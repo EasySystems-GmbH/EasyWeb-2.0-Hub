@@ -1,0 +1,38 @@
+services:
+  easyweb.web:
+    image: ghcr.io/ORG_OR_USER/PACKAGE_NAME:IMAGE_TAG
+    container_name: easyweb.web
+    ports:
+      - "8080:8080"
+      - "5055:5055"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Host=easyweb.db;Port=5432;Database=easyweb;Username=easyweb;Password=easyweb
+      Themes__DefaultRootPath: /app/Themes/BasicDemoTheme
+      Pages__RootPath: /app/Pages
+      RemoteEditing__Username: admin
+      RemoteEditing__Password: EasyWebRemote!2026
+      Seed__AdminEmail: admin@easyweb.local
+      Seed__AdminPassword: EasyWeb!2026
+    depends_on:
+      - easyweb.db
+    volumes:
+      - ./Themes:/app/Themes
+      - ./Pages:/app/Pages
+
+  easyweb.db:
+    image: postgres:16-alpine
+    container_name: easyweb.db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: easyweb
+      POSTGRES_USER: easyweb
+      POSTGRES_PASSWORD: easyweb
+    volumes:
+      - easyweb_pgdata:/var/lib/postgresql/data
+
+volumes:
+  easyweb_pgdata:
