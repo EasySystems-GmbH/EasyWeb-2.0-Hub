@@ -1,6 +1,6 @@
 services:
   easyweb.web:
-    image: ghcr.io/ORG_OR_USER/PACKAGE_NAME:IMAGE_TAG
+    image: ghcr.io/easysystems-gmbh/easyweb:latest
     container_name: easyweb.web
     ports:
       - "8080:8080"

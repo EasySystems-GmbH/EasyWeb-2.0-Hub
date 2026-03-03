@@ -18,11 +18,13 @@ Choose the desired tag (e.g. `latest`).
 
 ## 1) Create a `docker-compose.yml`
 
-Use `examples/docker-compose.yml` from this repository and replace:
+Use `examples/docker-compose.yml` from this repository.
 
-- `ORG_OR_USER` with the package owner
-- `PACKAGE_NAME` with the published package name (currently `easyweb`)
-- `IMAGE_TAG` with a valid published tag
+It uses:
+
+- `ghcr.io/easysystems-gmbh/easyweb:latest`
+
+If you want a pinned release, change `latest` to a specific tag.
 
 You can also copy it quickly:
 
