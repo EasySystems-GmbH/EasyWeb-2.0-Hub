@@ -34,4 +34,5 @@ Starter theme repository:
 - [Getting Started](getting-started.md)
 - [Install with Docker](install-with-docker.md)
 - [Docker Compose Example](../examples/docker-compose.yml)
+- [VS Code Extension](vscode-extension.md)
 - [Hub Home](../index.md)

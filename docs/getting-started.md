@@ -22,6 +22,7 @@ Live documentation site:
 - [Install with Docker](install-with-docker.md)
 - [Repository Map](repositories.md)
 - [Docker Compose Example](../examples/docker-compose.yml)
+- [VS Code Extension](vscode-extension.md)
 - [Hub Home](../index.md)
 
 ## Next Steps

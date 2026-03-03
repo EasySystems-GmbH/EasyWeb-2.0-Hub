@@ -6,6 +6,7 @@ Navigation:
 
 - [Getting Started](getting-started.md)
 - [Repository Map](repositories.md)
+- [VS Code Extension](vscode-extension.md)
 - [Hub Home](../index.md)
 
 ## Docker Package

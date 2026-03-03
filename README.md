@@ -9,6 +9,7 @@ This repository is the central place for public documentation, installation guid
 - [Live docs (GitHub Pages)](https://easysystems-gmbh.github.io/EasyWeb-2.0-Hub/)
 - [Docker package (GitHub Packages)](https://github.com/orgs/EasySystems-GmbH/packages/container/package/easyweb)
 - [Basic Demo Theme repository](https://github.com/EasySystems-GmbH/EasyWeb-2.0-Basic-Demo-Theme)
+- [VS Code/Cursor Extension Guide](docs/vscode-extension.md)
 
 ## Start Here
 
@@ -16,3 +17,4 @@ This repository is the central place for public documentation, installation guid
 - [Install with Docker](docs/install-with-docker.md) - run EasyWeb with Docker and PostgreSQL
 - [Repository Map](docs/repositories.md) - repository responsibilities and workflow
 - [Docker Compose Example](examples/docker-compose.yml) - ready-to-copy compose file
+- [VS Code Extension](docs/vscode-extension.md) - download and basic usage
