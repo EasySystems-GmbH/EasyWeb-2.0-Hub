@@ -5,9 +5,9 @@ The EasyWeb extension packages as a `.vsix` file via GitHub Actions and can be i
 ## Download
 
 - Latest tagged releases (recommended):  
-  `https://github.com/EasySystems-GmbH/EasyWeb-2.0-Hub/releases`
+  [EasyWeb-2.0-Hub releases](https://github.com/EasySystems-GmbH/EasyWeb-2.0-Hub/releases)
 - CI artifacts (for non-tag builds):  
-  `https://github.com/EasySystems-GmbH/EasyWeb-2.0/actions/workflows/vscode-extension-package.yml`
+  [Extension packaging workflow runs](https://github.com/EasySystems-GmbH/EasyWeb-2.0/actions/workflows/vscode-extension-package.yml)
 
 Download the `.vsix` file named like `easyweb-remote-<version>.vsix`.
 
@@ -31,7 +31,7 @@ Download the `.vsix` file named like `easyweb-remote-<version>.vsix`.
 
 1. Run `EasyWeb: Configure Connection`.
 2. Use defaults for local docker setup:
-   - Base URL: `http://localhost:5055`
+   - Base URL: [http://localhost:5055](http://localhost:5055)
    - Username: `admin`
    - Password: `EasyWebRemote!2026`
    - Remote root path: `/`

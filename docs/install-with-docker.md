@@ -13,7 +13,7 @@ Navigation:
 
 The EasyWeb Docker package is published via GitHub Packages:
 
-- `https://github.com/orgs/EasySystems-GmbH/packages/container/package/easyweb`
+- [easyweb package on GitHub Packages](https://github.com/orgs/EasySystems-GmbH/packages/container/package/easyweb)
 
 Choose the desired tag (e.g. `latest`).
 
@@ -45,8 +45,8 @@ docker compose up -d
 
 ## 3) Open EasyWeb
 
-- CMS/API: `http://localhost:8080`
-- Remote editing/WebDAV: `http://localhost:5055/webdav/`
+- CMS/API: [http://localhost:8080](http://localhost:8080)
+- Remote editing/WebDAV: [http://localhost:5055/webdav/](http://localhost:5055/webdav/)
 
 Default admin login:
 
