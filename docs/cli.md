@@ -68,8 +68,25 @@ easyweb pull /theme ./theme
 easyweb publish .
 easyweb validate .
 easyweb create-theme MyTheme ./Themes
+easyweb update --check
+easyweb update
 easyweb clear / --yes
 ```
+
+## Auto Update
+
+The CLI can self-update from the latest Hub release:
+
+```bash
+easyweb update --check
+easyweb update
+```
+
+Notes:
+
+- `--check` only checks and prints latest version.
+- `--force` installs even when versions match.
+- Update runs `npm install -g <downloaded .tgz>` under the hood.
 
 ## Help and Cursor Compatibility
 
