@@ -24,6 +24,28 @@ Install globally from downloaded package:
 npm install -g ./easyweb-remote-<version>.tgz
 ```
 
+Install latest release directly (macOS/Linux):
+
+```bash
+TMP_DIR="$(mktemp -d)" && \
+ASSET_URL="$(curl -fsSL https://api.github.com/repos/EasySystems-GmbH/EasyWeb-2.0-Hub/releases/latest | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);const a=(j.assets||[]).find(x=>/^easyweb-remote-.*\\.tgz$/i.test(x.name));if(!a){process.exit(1);}process.stdout.write(a.browser_download_url);});")" && \
+curl -fsSL "$ASSET_URL" -o "$TMP_DIR/easyweb-remote-latest.tgz" && \
+npm install -g "$TMP_DIR/easyweb-remote-latest.tgz" && \
+rm -rf "$TMP_DIR"
+```
+
+Install latest release directly (PowerShell):
+
+```powershell
+$release = Invoke-RestMethod https://api.github.com/repos/EasySystems-GmbH/EasyWeb-2.0-Hub/releases/latest
+$asset = $release.assets | Where-Object { $_.name -match '^easyweb-remote-.*\.tgz$' } | Select-Object -First 1
+if (-not $asset) { throw "No easyweb-remote .tgz asset found in latest release." }
+$tmp = Join-Path $env:TEMP "easyweb-remote-latest.tgz"
+Invoke-WebRequest $asset.browser_download_url -OutFile $tmp
+npm install -g $tmp
+Remove-Item $tmp -Force
+```
+
 Verify:
 
 ```bash
