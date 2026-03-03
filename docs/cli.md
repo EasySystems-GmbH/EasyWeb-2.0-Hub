@@ -18,6 +18,16 @@ Requirements:
 - Node.js 20+
 - npm
 
+### Homebrew (macOS, Linux)
+
+```bash
+brew install --formula "https://raw.githubusercontent.com/EasySystems-GmbH/EasyWeb-2.0-Homebrew/main/Formula/easyweb.rb"
+```
+
+No tap setup is required. The formula is published to the public Homebrew repo and updated automatically by EasyWeb 2.0 CI on each release.
+
+### npm (all platforms)
+
 Install globally from downloaded package:
 
 ```bash
@@ -28,10 +38,18 @@ Install latest release directly (macOS/Linux):
 
 ```bash
 TMP_DIR="$(mktemp -d)" && \
-ASSET_URL="$(curl -fsSL https://api.github.com/repos/EasySystems-GmbH/EasyWeb-2.0-Hub/releases/latest | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);const a=(j.assets||[]).find(x=>/^easyweb-remote-.*\\.tgz$/i.test(x.name));if(!a){process.exit(1);}process.stdout.write(a.browser_download_url);});")" && \
+ASSET_URL="$(curl -fsSL https://api.github.com/repos/EasySystems-GmbH/EasyWeb-2.0-Hub/releases/latest | node -e 'let d="";process.stdin.on("data",c=>d+=c);process.stdin.on("end",()=>{const j=JSON.parse(d);const a=(j.assets||[]).find(x=>/^easyweb-remote-.*\.tgz$/i.test(x.name));if(!a){process.exit(1);}process.stdout.write(a.browser_download_url);});')" && \
 curl -fsSL "$ASSET_URL" -o "$TMP_DIR/easyweb-remote-latest.tgz" && \
 npm install -g "$TMP_DIR/easyweb-remote-latest.tgz" && \
-rm -rf "$TMP_DIR"
+rm -rf "$TMP_DIR" && \
+export PATH="$(npm config get prefix)/bin:$PATH"
+```
+
+Alternative using `jq` (if installed):
+
+```bash
+ASSET_URL=$(curl -fsSL https://api.github.com/repos/EasySystems-GmbH/EasyWeb-2.0-Hub/releases/latest | jq -r '.assets[] | select(.name | test("^easyweb-remote-.*\\.tgz$")) | .browser_download_url')
+curl -fsSL "$ASSET_URL" -o /tmp/easyweb-latest.tgz && npm install -g /tmp/easyweb-latest.tgz && rm /tmp/easyweb-latest.tgz
 ```
 
 Install latest release directly (PowerShell):
@@ -52,6 +70,16 @@ Verify:
 easyweb --help
 easyweb version
 ```
+
+### Troubleshooting: `command not found`
+
+If `easyweb` is not found after install, the npm global bin directory may not be in your PATH. Add it:
+
+```bash
+export PATH="$(npm config get prefix)/bin:$PATH"
+```
+
+To make this permanent, add that line to `~/.zshrc` (zsh) or `~/.bashrc` (bash), then run `source ~/.zshrc` or open a new terminal.
 
 ## Configure Connection
 
