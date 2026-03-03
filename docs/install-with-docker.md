@@ -2,6 +2,12 @@
 
 This guide runs EasyWeb 2.0 with PostgreSQL using Docker Compose.
 
+Navigation:
+
+- [Getting Started](getting-started.md)
+- [Repository Map](repositories.md)
+- [Hub Home](../index.md)
+
 ## Docker Package
 
 The EasyWeb Docker package is published via GitHub Packages:
@@ -23,6 +29,10 @@ You can also copy it quickly:
 ```bash
 cp examples/docker-compose.yml docker-compose.yml
 ```
+
+Direct link:
+
+- [Docker Compose Example](../examples/docker-compose.yml)
 
 ## 2) Start services
 
