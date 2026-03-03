@@ -21,10 +21,18 @@ Requirements:
 ### Homebrew (macOS, Linux)
 
 ```bash
-brew install --formula "https://raw.githubusercontent.com/EasySystems-GmbH/EasyWeb-2.0-Homebrew/main/Formula/easyweb.rb"
+brew tap EasySystems-GmbH/easyweb https://github.com/EasySystems-GmbH/EasyWeb-2.0-Homebrew
+brew install easyweb
 ```
 
-No tap setup is required. The formula is published to the public Homebrew repo and updated automatically by EasyWeb 2.0 CI on each release.
+The formula is published to the public Homebrew repo and updated automatically by EasyWeb 2.0 CI on each release.
+
+If you tapped EasyWeb previously from a different source, reset once:
+
+```bash
+brew untap easysystems-gmbh/easyweb
+brew tap EasySystems-GmbH/easyweb https://github.com/EasySystems-GmbH/EasyWeb-2.0-Homebrew
+```
 
 ### npm (all platforms)
 
