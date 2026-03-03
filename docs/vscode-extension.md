@@ -1,6 +1,7 @@
 # EasyWeb VS Code Extension
 
 The EasyWeb extension packages as a `.vsix` file via GitHub Actions and can be installed in both VS Code and Cursor.
+The same workflow also publishes the EasyWeb CLI package (`.tgz`) for terminal-based workflows.
 
 ## Download
 
@@ -10,6 +11,7 @@ The EasyWeb extension packages as a `.vsix` file via GitHub Actions and can be i
   [Extension packaging workflow runs](https://github.com/EasySystems-GmbH/EasyWeb-2.0/actions/workflows/vscode-extension-package.yml)
 
 Download the `.vsix` file named like `easyweb-remote-<version>.vsix`.
+For CLI usage, see [CLI Guide](cli.md).
 
 ## Install from VSIX
 

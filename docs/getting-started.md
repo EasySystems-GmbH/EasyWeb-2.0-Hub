@@ -23,6 +23,7 @@ Live documentation site:
 - [Repository Map](repositories.md)
 - [Docker Compose Example](../examples/docker-compose.yml)
 - [VS Code Extension](vscode-extension.md)
+- [CLI](cli.md)
 - [Hub Home](../index.md)
 
 ## Next Steps
