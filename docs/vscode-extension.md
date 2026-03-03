@@ -5,7 +5,7 @@ The EasyWeb extension packages as a `.vsix` file via GitHub Actions and can be i
 ## Download
 
 - Latest tagged releases (recommended):  
-  `https://github.com/EasySystems-GmbH/EasyWeb-2.0/releases`
+  `https://github.com/EasySystems-GmbH/EasyWeb-2.0-Hub/releases`
 - CI artifacts (for non-tag builds):  
   `https://github.com/EasySystems-GmbH/EasyWeb-2.0/actions/workflows/vscode-extension-package.yml`
 
