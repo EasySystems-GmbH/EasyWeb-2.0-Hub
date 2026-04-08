@@ -59,6 +59,19 @@ Clone or copy the `EasyWeb 2.0 Basic Demo Theme` repo into your mounted `Themes`
 
 - `Themes__DefaultRootPath=/app/Themes/BasicDemoTheme`
 
+Recommended alternative (CLI): create a base theme scaffold without cloning a repository.
+
+```bash
+easyweb create-theme MyTheme ./Themes
+easyweb validate ./Themes/MyTheme
+```
+
+Then set:
+
+- `Themes__DefaultRootPath=/app/Themes/MyTheme`
+
+See [CLI](cli.md) for installation and connection setup.
+
 ## Notes
 
 - For production, change secrets and switch to secure credentials and environment values.
