@@ -26,33 +26,6 @@ Live documentation site:
 - [CLI](cli.md)
 - [Hub Home](../index.md)
 
-## Create a Base Theme with the CLI
-
-After installing the CLI, create a new base theme scaffold:
-
-```bash
-easyweb create-theme MyTheme ./Themes
-```
-
-This creates a starter theme folder at `./Themes/MyTheme`.
-
-Next steps:
-
-1. Open the created theme folder and update templates/assets.
-2. Validate before publish:
-
-   ```bash
-   easyweb validate ./Themes/MyTheme
-   ```
-
-3. Publish your theme when ready:
-
-   ```bash
-   easyweb publish ./Themes/MyTheme
-   ```
-
-See [CLI](cli.md) for additional commands and connection setup options.
-
 ## Next Steps
 
 1. Follow [Install with Docker](install-with-docker.md) to run EasyWeb locally.
