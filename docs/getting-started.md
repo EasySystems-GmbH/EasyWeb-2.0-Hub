@@ -29,5 +29,7 @@ Live documentation site:
 ## Next Steps
 
 1. Follow [Install with Docker](install-with-docker.md) to run EasyWeb locally.
-2. Pull and customize the Basic Demo Theme for your site.
-3. Use Hub docs as your source of truth for public instructions.
+2. Install the [CLI](cli.md) or [VS Code extension](vscode-extension.md).
+3. Create or clone a site workspace (`theme/`, `pages/`) and use `easyweb publish .` to deploy, or `easyweb pull .` to download changes made in the CMS.
+4. Customize the [Basic Demo Theme](https://github.com/EasySystems-GmbH/EasyWeb-2.0-Basic-Demo-Theme) as your starting point.
+5. Use Hub docs as your source of truth for public instructions.

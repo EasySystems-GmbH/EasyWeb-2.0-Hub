@@ -53,25 +53,50 @@ Default admin login:
 - Email: `admin@easyweb.local`
 - Password: `EasyWeb!2026`
 
-## 4) Add the Basic Demo Theme
+## 4) Theme and site content
 
-Clone or copy the `EasyWeb 2.0 Basic Demo Theme` repo into your mounted `Themes` folder, then set:
+The compose example sets `Themes__DefaultRootPath=/app/Themes/site`. On first start the container entrypoint seeds the bundled demo theme into that folder on the `easyweb_themes` volume.
 
-- `Themes__DefaultRootPath=/app/Themes/BasicDemoTheme`
-
-Recommended alternative (CLI): create a base theme scaffold without cloning a repository.
+### Option A — CLI scaffold (recommended)
 
 ```bash
-easyweb create-theme MyTheme ./Themes
-easyweb validate ./Themes/MyTheme
+# Install CLI first — see docs/cli.md
+easyweb create-theme MySite ./workspace
+cd ./workspace
+easyweb validate .
 ```
 
-Then set:
+Organize a deployable site repo:
 
-- `Themes__DefaultRootPath=/app/Themes/MyTheme`
+```text
+my-site/
+  theme/    # from create-theme output (move files into theme/)
+  pages/
+```
 
-See [CLI](cli.md) for installation and connection setup.
+Publish to the running instance:
+
+```bash
+export EASYWEB_BASE_URL=http://localhost:5055
+export EASYWEB_USERNAME=admin
+export EASYWEB_PASSWORD=EasyWebRemote!2026
+export EASYWEB_ADMIN_EMAIL=admin@easyweb.local
+export EASYWEB_ADMIN_PASSWORD=EasyWeb!2026
+
+easyweb publish . --default-culture de
+```
+
+After editing in the CMS admin, pull changes back to git:
+
+```bash
+easyweb pull .
+```
+
+### Option B — Basic Demo Theme repository
+
+Clone [EasyWeb 2.0 Basic Demo Theme](https://github.com/EasySystems-GmbH/EasyWeb-2.0-Basic-Demo-Theme) and publish its `theme/` and `pages/` folders with `easyweb publish .`.
 
 ## Notes
 
 - For production, change secrets and switch to secure credentials and environment values.
+- WebDAV uses `RemoteEditing__*` credentials; CMS pull uses `Seed__AdminEmail` / `Seed__AdminPassword` (see [CLI](cli.md)).

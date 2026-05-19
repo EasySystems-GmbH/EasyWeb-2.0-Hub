@@ -106,6 +106,7 @@ export EASYWEB_BASE_URL=http://localhost:5055
 export EASYWEB_USERNAME=admin
 export EASYWEB_PASSWORD=EasyWebRemote!2026
 export EASYWEB_THEME_PATH=/
+export EASYWEB_DEFAULT_CULTURE=de
 ```
 
 PowerShell:
@@ -115,21 +116,96 @@ $env:EASYWEB_BASE_URL="http://localhost:5055"
 $env:EASYWEB_USERNAME="admin"
 $env:EASYWEB_PASSWORD="EasyWebRemote!2026"
 $env:EASYWEB_THEME_PATH="/"
+$env:EASYWEB_DEFAULT_CULTURE="de"
+```
+
+### CMS admin (for pull / sync)
+
+Workspace pull also downloads navigation and uploaded images from the CMS API. That uses **CMS admin** credentials (not WebDAV):
+
+macOS/Linux:
+
+```bash
+export EASYWEB_ADMIN_EMAIL=admin@easyweb.local
+export EASYWEB_ADMIN_PASSWORD=EasyWeb!2026
+```
+
+On ESYS Hosting stacks, use the deploy form **admin email** and **admin password** (same as the CMS login), not the WebDAV remote-editing password.
+
+Optional:
+
+```bash
+export EASYWEB_SITE_ID=4a33a08b-f52f-4e89-bc4b-3ecb8fe49cb5   # default seeded site
 ```
 
 ## Common Commands
 
 ```bash
-easyweb ls /
+easyweb ls /theme
 easyweb push ./theme /theme
+easyweb publish . --default-culture de
+easyweb pull .
+easyweb sync .
 easyweb pull /theme ./theme
-easyweb publish .
 easyweb validate .
 easyweb create-theme MyTheme ./Themes
 easyweb update --check
 easyweb update
-easyweb clear / --yes
+easyweb clear /theme --yes
 ```
+
+## Publish and pull (workspace)
+
+Standard site layout in git:
+
+```text
+my-site/
+  theme/          # layout, assets, inc/
+  pages/          # page HTML and .meta.json
+  pages/de/       # optional culture subfolders
+```
+
+**Publish** (local → server):
+
+```bash
+easyweb publish . --default-culture de
+```
+
+Uploads `theme/` → WebDAV `/theme` and `pages/` → `/pages` (with culture mirroring when needed).
+
+**Pull** (server → local) after CMS or remote edits:
+
+```bash
+easyweb pull .
+# alias
+easyweb sync .
+```
+
+Downloads into the workspace:
+
+| Server source | Local path |
+|---------------|------------|
+| WebDAV `/theme` | `theme/` |
+| WebDAV `/pages` | `pages/` (all cultures, `.meta.json`) |
+| CMS navigation API | `navigation/main.json` |
+| CMS media library | `images/` |
+
+Requires `EASYWEB_ADMIN_EMAIL` and `EASYWEB_ADMIN_PASSWORD` for navigation and images. WebDAV credentials alone sync only theme and pages.
+
+Flags:
+
+- `--skip-cms` — WebDAV only (`theme/`, `pages/`)
+- `--skip-images` — pull navigation but not `images/`
+- `--admin-email`, `--admin-password`, `--site-id` — override env vars
+
+Single-folder pull (WebDAV only):
+
+```bash
+easyweb pull /theme ./theme
+easyweb pull /pages ./pages
+```
+
+> **Note:** `navigation/main.json` is exported for version control. Pushing navigation back to the server is not implemented yet; manage nav in the CMS or re-import manually.
 
 ## Auto Update
 
@@ -154,7 +230,14 @@ The CLI supports both global and command-level help:
 easyweb --help
 easyweb help
 easyweb help publish
+easyweb help pull
 easyweb publish --help
+easyweb pull --help
 ```
 
 This makes command discovery reliable for both humans and AI tooling (including Cursor).
+
+## Further reading
+
+- [EasyWeb remote editing](https://github.com/EasySystems-GmbH/EasyWeb-2.0/blob/main/docs/remote-editing.md) — WebDAV layout and credentials
+- [Themes and pages](https://github.com/EasySystems-GmbH/EasyWeb-2.0/blob/main/docs/theme-and-pages.md) — rendering and culture folders

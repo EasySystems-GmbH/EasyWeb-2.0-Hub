@@ -10,7 +10,7 @@ This repository is the central place for public documentation, installation guid
 - [Docker package (GitHub Packages)](https://github.com/orgs/EasySystems-GmbH/packages/container/package/easyweb)
 - [Basic Demo Theme repository](https://github.com/EasySystems-GmbH/EasyWeb-2.0-Basic-Demo-Theme)
 - [VS Code/Cursor Extension Guide](docs/vscode-extension.md)
-- [CLI Guide](docs/cli.md)
+- [CLI Guide](docs/cli.md) — publish, pull (`sync`), WebDAV and CMS credentials
 
 ## Start Here
 

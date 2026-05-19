@@ -12,7 +12,7 @@ services:
       Localization__AdminDefaultCulture: en
       ConnectionStrings__DefaultConnection: Host=easyweb.db;Port=5432;Database=easyweb;Username=easyweb;Password=easyweb
       EASYWEB_DB_PASSWORD: easyweb
-      Themes__DefaultRootPath: /app/Themes/BasicDemoTheme
+      Themes__DefaultRootPath: /app/Themes/site
       Pages__RootPath: /app/Pages
       Images__RootPath: /app/images
       RemoteEditing__Username: admin
