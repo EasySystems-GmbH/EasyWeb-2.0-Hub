@@ -14,6 +14,7 @@ services:
       EASYWEB_DB_PASSWORD: easyweb
       Themes__DefaultRootPath: /app/Themes/BasicDemoTheme
       Pages__RootPath: /app/Pages
+      Images__RootPath: /app/images
       RemoteEditing__Username: admin
       RemoteEditing__Password: EasyWebRemote!2026
       Seed__AdminEmail: admin@easyweb.local
@@ -22,7 +23,9 @@ services:
       easyweb.db:
         condition: service_healthy
     volumes:
+      - easyweb_themes:/app/Themes
       - easyweb_pages:/app/Pages
+      - easyweb_images:/app/images
 
   easyweb.db:
     image: postgres:16-alpine
@@ -45,4 +48,6 @@ services:
 
 volumes:
   easyweb_pgdata:
+  easyweb_themes:
   easyweb_pages:
+  easyweb_images:
