@@ -35,6 +35,6 @@ Live documentation site:
 2. Sign in to the CMS at `/admin` (`admin@easyweb.local` / `EasyWeb!2026` by default in Docker).
 3. Explore [CMS admin](cms-admin.md): edit pages in the visual editor, upload images, configure sliders.
 4. Install the [CLI](cli.md) or [VS Code extension](vscode-extension.md) for git-based workflows.
-5. Create or clone a site workspace (`theme/`, `pages/`) and use `easyweb publish .` to deploy, or `easyweb pull .` after CMS edits.
+5. Create or clone a site workspace (`theme/`, `pages/`, `navigation/`) and use `easyweb publish .` to deploy, or `easyweb pull .` after CMS edits. Push menu changes with `easyweb push-navigation .`.
 6. Customize the [Basic Demo Theme](https://github.com/EasySystems-GmbH/EasyWeb-2.0-Basic-Demo-Theme) as your starting point.
 7. Restrict editor access with [CMS permissions](cms-permissions.md) when working in a team.

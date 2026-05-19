@@ -7,7 +7,7 @@ Welcome to the public EasyWeb 2.0 documentation hub.
 - **CMS admin** — pages (WYSIWYG editor), image sliders, navigation, image gallery, documents, users
 - **Fine-grained permissions** — control which editors can change pages, images, nav, and settings
 - **Liquid themes** — Fluid templates with SEO, navigation, and slider placeholders
-- **CLI & VS Code** — `easyweb publish`, `easyweb pull` / `sync`, validate, and remote editing
+- **CLI & VS Code** — `easyweb publish`, `push-navigation`, `pull` / `sync`, validate, and remote editing
 - **Docker** — run locally or on ESYS Hosting with PostgreSQL
 
 ## Quick Links

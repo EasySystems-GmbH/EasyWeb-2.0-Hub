@@ -70,7 +70,9 @@ After uploading in the CMS, run `easyweb pull .` locally to sync `images/` into 
 
 ## Navigation
 
-Edit the main navigation tree. Links are rendered in themes via:
+Edit the main navigation tree in the CMS, or manage it in git via `navigation/main.json`.
+
+Links are rendered in themes via:
 
 ```liquid
 {% for link in navigations.main.links %}
@@ -78,7 +80,17 @@ Edit the main navigation tree. Links are rendered in themes via:
 {% endfor %}
 ```
 
-Navigation is stored in the database. Export to `navigation/main.json` with `easyweb pull .` (pull-only; push from CLI is not implemented yet).
+### Git / CLI workflow
+
+| Step | Command |
+|------|---------|
+| Download current menu | `easyweb pull .` → writes `navigation/main.json` |
+| Edit in your repo | Change `title`, `url`, or reorder the `links` array |
+| Upload to CMS | `easyweb push-navigation .` or `easyweb publish .` |
+
+Array order is the menu order. After push, the CLI refreshes `id` fields in `main.json` so the next push can update the same links.
+
+Requires **Navigation → Edit** permission. See [CLI](cli.md#push-navigation-local--cms).
 
 ## Documents
 

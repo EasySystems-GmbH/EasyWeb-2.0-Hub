@@ -11,11 +11,11 @@ my-site/
   theme/              # layout, assets, inc/, optional {slug}.html templates
   pages/              # page HTML + .meta.json
   pages/de/           # optional culture subfolders
-  navigation/         # exported by easyweb pull (main.json)
+  navigation/         # main.json — edit menu, push with easyweb push-navigation
   images/             # exported by easyweb pull (CMS uploads)
 ```
 
-Publish and pull: [CLI](cli.md).
+Publish and pull: [CLI](cli.md). Push navigation only: `easyweb push-navigation .`.
 
 ## Theme directory (`theme/`)
 
