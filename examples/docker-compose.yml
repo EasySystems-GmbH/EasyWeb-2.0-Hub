@@ -8,23 +8,32 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
+      Localization__DefaultCulture: de
+      Localization__AdminDefaultCulture: en
       ConnectionStrings__DefaultConnection: Host=easyweb.db;Port=5432;Database=easyweb;Username=easyweb;Password=easyweb
-      Themes__DefaultRootPath: /app/Themes/BasicDemoTheme
+      EASYWEB_DB_PASSWORD: easyweb
+      Themes__DefaultRootPath: /app/Themes/LegacyStarter
       Pages__RootPath: /app/Pages
       RemoteEditing__Username: admin
       RemoteEditing__Password: EasyWebRemote!2026
       Seed__AdminEmail: admin@easyweb.local
       Seed__AdminPassword: EasyWeb!2026
     depends_on:
-      - easyweb.db
+      easyweb.db:
+        condition: service_healthy
     volumes:
-      - ./Themes:/app/Themes
-      - ./Pages:/app/Pages
+      - easyweb_pages:/app/Pages
 
   easyweb.db:
     image: postgres:16-alpine
     container_name: easyweb.db
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U easyweb -d easyweb"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
     ports:
       - "5432:5432"
     environment:
@@ -36,3 +45,4 @@ services:
 
 volumes:
   easyweb_pgdata:
+  easyweb_pages:
