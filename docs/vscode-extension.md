@@ -38,8 +38,10 @@ For CLI usage, see [CLI Guide](cli.md).
    - Password: `EasyWebRemote!2026`
    - Remote root path: `/`
 3. Open your local site workspace (folders `theme/` and `pages/`).
-4. Run `EasyWeb: Publish` to push local changes to the server, or `EasyWeb: Pull from Server` to download CMS/WebDAV changes.
+4. Run `EasyWeb: Publish` to push local changes to the server, or `EasyWeb: Pull from Server` to download CMS/WebDAV changes (including `images/` and `navigation/main.json`).
 5. Run `EasyWeb: Validate` before publishing to check structure/placeholders.
+
+For CMS features (WYSIWYG page editor, page sliders, permissions), use the browser admin at `/admin` — see [CMS admin](cms-admin.md).
 
 Optional settings (for pull: navigation and images):
 
@@ -60,3 +62,9 @@ You can also set `EASYWEB_ADMIN_EMAIL` and `EASYWEB_ADMIN_PASSWORD` in the envir
 - `EasyWeb: Clear Remote` — clear a remote path after confirmation
 
 See [CLI Guide](cli.md) for terminal equivalents (`easyweb publish`, `easyweb pull`, `easyweb sync`).
+
+## Related docs
+
+- [CMS admin](cms-admin.md)
+- [Themes and content](themes-and-content.md)
+- [CMS permissions](cms-permissions.md)

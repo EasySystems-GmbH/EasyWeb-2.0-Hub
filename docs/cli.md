@@ -186,7 +186,7 @@ Downloads into the workspace:
 | Server source | Local path |
 |---------------|------------|
 | WebDAV `/theme` | `theme/` |
-| WebDAV `/pages` | `pages/` (all cultures, `.meta.json`) |
+| WebDAV `/pages` | `pages/` (all cultures, `.meta.json` including SEO and **sliders**) |
 | CMS navigation API | `navigation/main.json` |
 | CMS media library | `images/` |
 
@@ -239,5 +239,7 @@ This makes command discovery reliable for both humans and AI tooling (including 
 
 ## Further reading
 
-- [EasyWeb remote editing](https://github.com/EasySystems-GmbH/EasyWeb-2.0/blob/main/docs/remote-editing.md) — WebDAV layout and credentials
-- [Themes and pages](https://github.com/EasySystems-GmbH/EasyWeb-2.0/blob/main/docs/theme-and-pages.md) — rendering and culture folders
+- [CMS admin](cms-admin.md) — WYSIWYG pages, sliders, image gallery
+- [Themes and content](themes-and-content.md) — Liquid, pages, sliders, cultures
+- [CMS permissions](cms-permissions.md)
+- [EasyWeb remote editing](https://github.com/EasySystems-GmbH/EasyWeb-2.0/blob/main/docs/remote-editing.md) — WebDAV layout and credentials (core repo)

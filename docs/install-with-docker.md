@@ -5,7 +5,10 @@ This guide runs EasyWeb 2.0 with PostgreSQL using Docker Compose.
 Navigation:
 
 - [Getting Started](getting-started.md)
+- [CMS admin](cms-admin.md)
+- [Themes and content](themes-and-content.md)
 - [Repository Map](repositories.md)
+- [CLI](cli.md)
 - [VS Code Extension](vscode-extension.md)
 - [Hub Home](../index.md)
 
@@ -46,12 +49,15 @@ docker compose up -d
 ## 3) Open EasyWeb
 
 - CMS/API: [http://localhost:8080](http://localhost:8080)
+- CMS admin: [http://localhost:8080/admin](http://localhost:8080/admin)
 - Remote editing/WebDAV: [http://localhost:5055/webdav/](http://localhost:5055/webdav/)
 
 Default admin login:
 
 - Email: `admin@easyweb.local`
 - Password: `EasyWeb!2026`
+
+Use the CMS to edit pages (WYSIWYG), manage [page sliders](themes-and-content.md#page-sliders-liquid), upload images, and edit navigation. See [CMS admin](cms-admin.md).
 
 ## 4) Theme and site content
 
