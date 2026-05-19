@@ -70,7 +70,7 @@ After uploading in the CMS, run `easyweb pull .` locally to sync `images/` into 
 
 ## Navigation
 
-Edit the main navigation tree in the CMS, or manage it in git via `navigation/main.json`.
+Edit the main navigation tree in the CMS, or manage it in git via `settings/navigation.json`.
 
 Links are rendered in themes via:
 
@@ -84,11 +84,13 @@ Links are rendered in themes via:
 
 | Step | Command |
 |------|---------|
-| Download current menu | `easyweb pull .` → writes `navigation/main.json` |
+| Download current menu | `easyweb pull-navigation .` → writes `settings/navigation.json` |
 | Edit in your repo | Change `title`, `url`, or reorder the `links` array |
 | Upload to CMS | `easyweb push-navigation .` or `easyweb publish .` |
 
-Array order is the menu order. After push, the CLI refreshes `id` fields in `main.json` so the next push can update the same links.
+`easyweb pull .` also downloads navigation into `settings/` (with theme, pages, and images).
+
+Array order is the menu order. After push, the CLI refreshes `id` fields in `navigation.json` so the next push can update the same links.
 
 Requires **Navigation → Edit** permission. See [CLI](cli.md#push-navigation-local--cms).
 
@@ -101,7 +103,7 @@ Manage non-image files (PDF, Office, archives) separately from the image gallery
 | Direction | Command | What moves |
 |-----------|---------|------------|
 | Local → server | `easyweb publish .` | `theme/`, `pages/` via WebDAV |
-| Server → local | `easyweb pull .` or `easyweb sync .` | `theme/`, `pages/`, `navigation/main.json`, `images/` |
+| Server → local | `easyweb pull .` or `easyweb sync .` | `theme/`, `pages/`, `settings/navigation.json`, `images/` |
 
 CMS credentials (`EASYWEB_ADMIN_EMAIL`, `EASYWEB_ADMIN_PASSWORD`) are required for pull of navigation and images. WebDAV credentials sync theme and pages only.
 

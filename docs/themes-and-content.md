@@ -11,7 +11,7 @@ my-site/
   theme/              # layout, assets, inc/, optional {slug}.html templates
   pages/              # page HTML + .meta.json
   pages/de/           # optional culture subfolders
-  navigation/         # main.json — edit menu, push with easyweb push-navigation
+  settings/           # navigation.json — edit menu, push with easyweb push-navigation
   images/             # exported by easyweb pull (CMS uploads)
 ```
 

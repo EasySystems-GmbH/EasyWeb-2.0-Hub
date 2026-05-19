@@ -144,6 +144,7 @@ export EASYWEB_SITE_ID=4a33a08b-f52f-4e89-bc4b-3ecb8fe49cb5   # default seeded s
 easyweb ls /theme
 easyweb push ./theme /theme
 easyweb publish . --default-culture de
+easyweb pull-navigation .
 easyweb push-navigation .
 easyweb pull .
 easyweb sync .
@@ -161,9 +162,10 @@ Standard site layout in git:
 
 ```text
 my-site/
-  theme/          # layout, assets, inc/
-  pages/          # page HTML and .meta.json
-  pages/de/       # optional culture subfolders
+  theme/                    # layout, assets, inc/
+  pages/                    # page HTML and .meta.json
+  pages/de/                 # optional culture subfolders
+  settings/navigation.json  # main menu (CMS database via API)
 ```
 
 **Publish** (local → server):
@@ -174,26 +176,36 @@ easyweb publish . --default-culture de
 
 Uploads `theme/` → WebDAV `/theme` and `pages/` → `/pages` (with culture mirroring when needed).
 
-When `navigation/main.json` exists in the workspace, **`publish` also pushes navigation** to the CMS (unless you pass `--skip-navigation`). Requires `EASYWEB_ADMIN_EMAIL` and `EASYWEB_ADMIN_PASSWORD`.
+When `settings/navigation.json` exists in the workspace, **`publish` also pushes navigation** to the CMS (unless you pass `--skip-navigation`). Requires `EASYWEB_ADMIN_EMAIL` and `EASYWEB_ADMIN_PASSWORD`.
 
-**Push navigation** (local → CMS only):
+**Pull navigation** (CMS → local):
+
+```bash
+easyweb pull-navigation .
+```
+
+Writes `settings/navigation.json` with the current menu from the database (includes link `id` values for later updates).
+
+**Push navigation** (local → CMS):
 
 ```bash
 easyweb push-navigation .
 ```
 
-Applies `navigation/main.json` to the CMS:
+Applies `settings/navigation.json` to the CMS:
 
 - Link **order** in the file becomes `sortOrder` (top = first in menu).
 - Links with an `id` from a previous pull are **updated**.
 - Links without `id` are **created**.
 - Server links missing from the file are **deleted**.
 
-After a successful push, `main.json` is rewritten with current server ids (use `--no-rewrite` to keep your file unchanged).
+After a successful push, `navigation.json` is rewritten with current server ids (use `--no-rewrite` to keep your file unchanged).
 
 Requires CMS admin credentials and **Navigation → Edit** permission (`cms.navigation.edit`).
 
-Example `navigation/main.json`:
+Legacy `navigation/main.json` is still read if the settings file does not exist.
+
+Example `settings/navigation.json`:
 
 ```json
 {
@@ -221,7 +233,7 @@ Downloads into the workspace:
 |---------------|------------|
 | WebDAV `/theme` | `theme/` |
 | WebDAV `/pages` | `pages/` (all cultures, `.meta.json` including SEO and **sliders**) |
-| CMS navigation API | `navigation/main.json` |
+| CMS navigation API | `settings/navigation.json` |
 | CMS media library | `images/` |
 
 Requires `EASYWEB_ADMIN_EMAIL` and `EASYWEB_ADMIN_PASSWORD` for navigation and images. WebDAV credentials alone sync only theme and pages.
@@ -230,8 +242,8 @@ Flags:
 
 - `--skip-cms` — WebDAV only (`theme/`, `pages/`)
 - `--skip-images` — pull navigation but not `images/`
-- `--skip-navigation` — on `publish`, skip pushing `navigation/main.json`
-- `--no-rewrite` — on `push-navigation`, do not update `main.json` with server ids
+- `--skip-navigation` — on `publish`, skip pushing `settings/navigation.json`
+- `--no-rewrite` — on `push-navigation`, do not update `navigation.json` with server ids
 - `--admin-email`, `--admin-password`, `--site-id` — override env vars
 
 Single-folder pull (WebDAV only):
@@ -241,7 +253,7 @@ easyweb pull /theme ./theme
 easyweb pull /pages ./pages
 ```
 
-> **Tip:** Edit `navigation/main.json` in git, then run `easyweb push-navigation .` or `easyweb publish .` to apply changes to the live site.
+> **Tip:** Edit `settings/navigation.json` in git, then run `easyweb push-navigation .` or `easyweb publish .` to apply changes to the live site.
 
 ## Auto Update
 
