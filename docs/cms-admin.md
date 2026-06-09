@@ -92,7 +92,7 @@ Links are rendered in themes via:
 
 Array order is the menu order. After push, the CLI refreshes `id` fields in `navigation.json` so the next push can update the same links.
 
-Requires **Navigation → Edit** permission. See [CLI](cli.md#push-navigation-local--cms).
+Requires **Navigation → Edit** permission. See [CLI — push navigation](cli.md#publish-and-pull-workspace).
 
 ## Documents
 

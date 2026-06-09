@@ -2,6 +2,10 @@
 
 The EasyWeb CLI is published from the core `EasyWeb 2.0` repository and attached to Hub releases as a `.tgz` package.
 
+**Live documentation:** [EasyWeb 2.0 Hub](https://easysystems-gmbh.github.io/EasyWeb-2.0-Hub/) — install guides, CMS docs, and this CLI reference.
+
+After install, `easyweb help` and `easyweb version` print the hub URL so you can open the docs from the terminal.
+
 ## Download
 
 - Tagged releases (recommended):  
@@ -254,6 +258,32 @@ easyweb pull /pages ./pages
 ```
 
 > **Tip:** Edit `settings/navigation.json` in git, then run `easyweb push-navigation .` or `easyweb publish .` to apply changes to the live site.
+
+## Validate theme
+
+Check a workspace or generated theme before publish:
+
+```bash
+easyweb validate .
+```
+
+The command verifies required files (`theme.json`, `inc/_header.html`, `inc/_footer.html`, `index.html`, `assets/css/main.css`, `assets/js/main.js`), EasyWeb Liquid placeholders, editable regions, and duplicate `theme/` vs `pages/` slug templates. Exit code is `1` when any check fails.
+
+## Create theme and update README docs
+
+Scaffold a new theme from the shared template:
+
+```bash
+easyweb create-theme MyTheme ./Themes
+```
+
+Refresh the generated **Template docs** section in a theme `README.md`:
+
+```bash
+easyweb update docs .
+# alias
+easyweb update-docs .
+```
 
 ## Auto Update
 
