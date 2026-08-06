@@ -123,15 +123,17 @@ $env:EASYWEB_THEME_PATH="/"
 $env:EASYWEB_DEFAULT_CULTURE="de"
 ```
 
-### CMS admin (for pull / sync)
+### CMS admin (for pull / sync / media / backup)
 
-Workspace pull also downloads navigation and uploaded images from the CMS API. That uses **CMS admin** credentials (not WebDAV):
+Workspace pull also downloads navigation and images from the CMS API. Uploads, backups, users, and secrets use the same auth:
 
 macOS/Linux:
 
 ```bash
 export EASYWEB_ADMIN_EMAIL=admin@easyweb.local
 export EASYWEB_ADMIN_PASSWORD=EasyWeb!2026
+# or machine token:
+# export EASYWEB_API_TOKEN=ew_...
 ```
 
 On ESYS Hosting stacks, use the deploy form **admin email** and **admin password** (same as the CMS login), not the WebDAV remote-editing password.
@@ -148,28 +150,71 @@ export EASYWEB_SITE_ID=4a33a08b-f52f-4e89-bc4b-3ecb8fe49cb5   # default seeded s
 easyweb ls /theme
 easyweb push ./theme /theme
 easyweb publish . --default-culture de
-easyweb pull-navigation .
-easyweb push-navigation .
 easyweb pull .
 easyweb sync .
-easyweb pull /theme ./theme
+easyweb pull-navigation .
+easyweb push-navigation .
+easyweb snippet dataset products
+easyweb push-images .
+easyweb push-images-metadata .
+easyweb push-documents .
+easyweb pull-users . / easyweb push-users .
+easyweb pull-secrets . --yes / easyweb push-secrets . --yes
+easyweb backup export full ./backup.zip
+easyweb backup import full ./backup.zip --yes
+easyweb api-token create cli
+easyweb cache clear
+easyweb privacy-scan
 easyweb validate .
 easyweb create-theme MyTheme ./Themes
 easyweb update --check
-easyweb update
 easyweb clear /theme --yes
 ```
 
 ## Publish and pull (workspace)
 
+### Sync matrix (canonical)
+
+| Local folder | Server | Transport | Notes |
+|--------------|--------|-----------|-------|
+| `theme/` | WebDAV `/theme` | WebDAV | Active instance theme |
+| `pages/` | WebDAV `/pages` | WebDAV | Page HTML + `.meta.json` |
+| `datasets/` | WebDAV `/datasets` | WebDAV | When present |
+| `forms/` | WebDAV `/forms` | WebDAV | When present |
+| `news/` | WebDAV `/news` | WebDAV | When present |
+| `settings/*.json` (allowlist) | WebDAV `/settings` | WebDAV | `site-theme`, `privacy`, `redirects`, `maps`, legal snippets |
+| `settings/navigation.json` | CMS DB | CMS API | `EASYWEB_API_TOKEN` or `EASYWEB_ADMIN_*` |
+| `images/` | CMS media | CMS API | Pull on `pull .`; push via `push-images` / `publish` |
+| `files/` | CMS documents | CMS API | `push-documents` / `publish` |
+| `settings/users.json` | CMS users | CMS API | `pull-users` / `push-users` (no hashes on pull) |
+| secrets JSON | CMS settings API | CMS API | Explicit `pull-secrets` / `push-secrets --yes` only |
+
+Empty workspace + `easyweb pull .` creates the standard layout and pulls allowlisted settings.
+
+See also [Working with EasyWeb](working-with-easyweb.md) and [WebDAV and CLI routes](webdav-and-cli.md).
+
+### Site workspace vs Core repo
+
+| Context | Pages | Theme |
+|---------|-------|-------|
+| **Site repo / CLI** (`easyweb publish .`) | `pages/` | `theme/` |
+| **Core Docker bind-mount** (`EasyWeb-2.0/`) | `Pages/` | `Themes/site` |
+| **WebDAV / server** | `/pages` | `/theme` |
+
+`easyweb publish .` / `pull .` / `validate .` expect a **site workspace** with lowercase `theme/` and `pages/` at the workspace root. The Core repo layout (`Pages/` + `Themes/site`) is for local Docker development (bind mounts — changes are live without publish). To sync a single folder from Core: `easyweb push Themes/site /theme` or `easyweb pull /theme ./theme`.
+
 Standard site layout in git:
 
 ```text
 my-site/
-  theme/                    # layout, assets, inc/
-  pages/                    # page HTML and .meta.json
+  theme/                    # layout, assets, inc/  →  /theme
+  pages/                    # page HTML and .meta.json  →  /pages
   pages/de/                 # optional culture subfolders
+  datasets/                 # optional  →  /datasets
+  forms/                    # optional  →  /forms
+  news/                     # optional  →  /news
   settings/navigation.json  # main menu (CMS database via API)
+  images/                   # CMS uploads (pull)
 ```
 
 **Publish** (local → server):
@@ -178,10 +223,9 @@ my-site/
 easyweb publish . --default-culture de
 ```
 
-Uploads `theme/` → WebDAV `/theme` and `pages/` → `/pages` (with culture mirroring when needed).
+Uploads `theme/` → `/theme`, `pages/` → `/pages`, and when present `datasets/` → `/datasets`, `forms/` → `/forms`, `news/` → `/news` (with culture mirroring for pages when needed).
 
 When `settings/navigation.json` exists in the workspace, **`publish` also pushes navigation** to the CMS (unless you pass `--skip-navigation`). Requires `EASYWEB_ADMIN_EMAIL` and `EASYWEB_ADMIN_PASSWORD`.
-
 **Pull navigation** (CMS → local):
 
 ```bash
@@ -231,20 +275,23 @@ easyweb pull .
 easyweb sync .
 ```
 
-Downloads into the workspace:
+Downloads into the workspace (see [sync matrix](#sync-matrix-canonical) above):
 
 | Server source | Local path |
 |---------------|------------|
 | WebDAV `/theme` | `theme/` |
 | WebDAV `/pages` | `pages/` (all cultures, `.meta.json` including SEO and **sliders**) |
+| WebDAV `/datasets` | `datasets/` |
+| WebDAV `/forms` | `forms/` |
+| WebDAV `/news` | `news/` |
 | CMS navigation API | `settings/navigation.json` |
 | CMS media library | `images/` |
 
-Requires `EASYWEB_ADMIN_EMAIL` and `EASYWEB_ADMIN_PASSWORD` for navigation and images. WebDAV credentials alone sync only theme and pages.
+Requires `EASYWEB_ADMIN_EMAIL` and `EASYWEB_ADMIN_PASSWORD` for navigation and images. WebDAV credentials alone sync theme, pages, datasets, forms, and news.
 
 Flags:
 
-- `--skip-cms` — WebDAV only (`theme/`, `pages/`)
+- `--skip-cms` — WebDAV only (`theme/`, `pages/`, `datasets/`, `forms/`, `news/`)
 - `--skip-images` — pull navigation but not `images/`
 - `--skip-navigation` — on `publish`, skip pushing `settings/navigation.json`
 - `--no-rewrite` — on `push-navigation`, do not update `navigation.json` with server ids
@@ -255,6 +302,7 @@ Single-folder pull (WebDAV only):
 ```bash
 easyweb pull /theme ./theme
 easyweb pull /pages ./pages
+easyweb pull /datasets ./datasets
 ```
 
 > **Tip:** Edit `settings/navigation.json` in git, then run `easyweb push-navigation .` or `easyweb publish .` to apply changes to the live site.
@@ -267,15 +315,19 @@ Check a workspace or generated theme before publish:
 easyweb validate .
 ```
 
-The command verifies required files (`theme.json`, `inc/_header.html`, `inc/_footer.html`, `index.html`, `assets/css/main.css`, `assets/js/main.js`), EasyWeb Liquid placeholders, editable regions, and duplicate `theme/` vs `pages/` slug templates. Exit code is `1` when any check fails.
+Run `validate` against a **theme root** or a site workspace that contains `theme/` (the CLI resolves `theme/` when present). It verifies required files (`theme.json`, `inc/_header.html`, `inc/_footer.html`, `index.html`, `assets/css/main.css`, `assets/js/main.js`), EasyWeb Liquid placeholders, editable regions, and duplicate `theme/` vs `pages/` slug templates. Exit code is `1` when any check fails.
+
+Optional **WARN** lines appear when CMS marker blocks are missing (`ew-site-meta`, `ew-theme-css`, …) — warnings do not fail the command. Instance themes that use `blank.html` as `theme.json` entry may still need `index.html` for a clean validate pass (scaffold from `easyweb create-theme` includes both).
 
 ## Create theme and update README docs
 
-Scaffold a new theme from the shared template:
+Scaffold a new theme from the neutral **LegacyStarter** template (`Themes/LegacyStarter` in the CMS repo — same source as theme restore and `easyweb create-theme`):
 
 ```bash
 easyweb create-theme MyTheme ./Themes
 ```
+
+The command copies Bootstrap 5 layout with CMS marker blocks (`ew-site-meta`, `ew-theme-css`, `ew-site-footer`, …), `custom.css`, `editor-canvas.css`, slider/gallery base CSS, and news layout templates. Theme name placeholders are applied in `theme.json`, manifest, and nav branding.
 
 Refresh the generated **Template docs** section in a theme `README.md`:
 
@@ -317,7 +369,9 @@ This makes command discovery reliable for both humans and AI tooling (including 
 
 ## Further reading
 
-- [CMS admin](cms-admin.md) — WYSIWYG pages, sliders, image gallery
+- [CMS admin](cms-admin.md) — hybrid page editor, sliders, image gallery
 - [Themes and content](themes-and-content.md) — Liquid, pages, sliders, cultures
 - [CMS permissions](cms-permissions.md)
 - [EasyWeb remote editing](https://github.com/EasySystems-GmbH/EasyWeb-2.0/blob/main/docs/remote-editing.md) — WebDAV layout and credentials (core repo)
+- [WebDAV ↔ CMS compatibility](https://github.com/EasySystems-GmbH/EasyWeb-2.0/blob/main/docs/webdav-cms-compatibility.md) — markers, conflicts, pull-before-edit (core repo)
+- [Page building / CMS blocks](https://github.com/EasySystems-GmbH/EasyWeb-2.0/blob/main/docs/cursor-page-building.md) — blocks, zones, snippets (core repo)

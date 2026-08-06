@@ -4,16 +4,23 @@ EasyWeb 2.0 includes a browser-based CMS at `/admin` for managing site content w
 
 Sign in with your **admin email** and **password** (seeded on first run in Docker; on ESYS Hosting, use the credentials from the stack deploy form).
 
+Local Docker: open `http://localhost:8080/admin` (public site also on **8080**; WebDAV / `easyweb` CLI default to **5055**).
+
 ## Admin areas
 
 | Area | Path | Purpose |
 |------|------|---------|
-| **Pages** | `/admin` | Create and edit pages, WYSIWYG body, SEO fields, page sliders |
-| **Navigation** | `/admin/navigation` | Main menu links (`navigations.main.links` in themes) |
+| **Pages** | `/admin` | Create and edit pages (hybrid editor), SEO fields, templates, page sliders, page popup |
+| **DataSets** | `/admin/datasets` | Structured data (schemas + culture rows) for Liquid blocks |
 | **Image Gallery** | `/admin/files` | Upload and organize images (`/images/...` on the public site) |
-| **Documents** | `/admin/documents` | PDFs and other document files |
-| **Users** | `/admin/users` | Accounts, roles, and per-feature permissions |
-| **Settings** | `/admin/settings` | Remote editing (WebDAV) username and password |
+| **Documents** | `/admin/documents` | PDFs and other document files (`/files/...`) |
+| **News** | `/admin/news` | News feeds and posts |
+| **Forms** | `/admin/forms` | Form definitions and submissions |
+| **Navigation** | `/admin/navigation` | Main menu links (`navigations.main.links` in themes) |
+| **Theme** | `/admin/theme` | Layout, header/footer, custom CSS/JS, live preview |
+| **Users** | `/admin/users` | Accounts, role presets, and per-feature permissions |
+| **Settings** | `/admin/settings` | Design, Meta, E-Mail, Languages, Assets, Maps, Cookies, Redirects, Backup, WebDAV |
+| **Help** | `/admin/help` | In-product customer guide (DE/EN/FR/IT) |
 
 Sidebar links are hidden when the signed-in user lacks the required permission. See [CMS permissions](cms-permissions.md).
 
@@ -29,25 +36,31 @@ Sidebar links are hidden when the signed-in user lacks the required permission. 
 Each page is stored on disk as:
 
 - `pages/{culture}/{slug}.html` — page body HTML
-- `pages/{culture}/{slug}.meta.json` — title, SEO fields, and slider data
+- `pages/{culture}/{slug}.meta.json` — title, SEO fields, slider data, `contentCss` (camelCase keys)
 
 For a single default culture, files may also live as `pages/{slug}.html` at the root of the pages folder.
 
-### Visual editor (WYSIWYG)
+### Hybrid page editor (GrapesJS + Monaco)
 
-Page body content uses a **TinyMCE** visual editor:
+Page body content uses a **hybrid editor**:
 
-- Formatting: headings, bold, lists, links, tables, images
-- **Code** button for raw HTML when needed
-- New or empty content is wrapped in `<section class="wf-editable">` for theme compatibility
+| Tab | Role |
+|-----|------|
+| **Visual** | GrapesJS canvas — drag blocks, edit text, styles, traits |
+| **Code** | Monaco — raw HTML / Liquid zones |
+| **Preview** | Public rendering, including responsive breakpoints |
 
-Users with **view-only** page permission see the editor in read-only mode; Save and Delete are disabled.
+Common blocks: Section, Columns, Text, List, Image, Button, Slider, Gallery, FAQ, Downloads, PDF, YouTube, Divider, Map (when Maps is enabled), Form, DataSet, News, Page folder, Code (Liquid/HTML).
+
+- New or empty content is wrapped in `<section class="wf-editable">` for theme compatibility.
+- Toolbar **Popup** configures a page-level modal (`<!-- ew:page-popup -->`), not a canvas block.
+- Users with **view-only** page permission see the editor in read-only mode; Save and Delete are disabled.
 
 ### Page sliders
 
-For theme templates that use Liquid image sliders, manage slides on the same page editor:
+For pages that use the Slider block (or theme Liquid sliders), manage slides on the same page editor:
 
-1. Open **Page sliders** (slider name `main` by default).
+1. Open **Page sliders** (slider name `main` by default), or configure images on the Slider block.
 2. Click **Add from gallery** and pick images already uploaded in **Image Gallery**.
 3. **Drag** slides by the ⠿ handle to reorder.
 4. **Save page** — order is stored in `.meta.json` and exposed to Liquid as `current_page.sliders.main.images`.
@@ -57,6 +70,18 @@ See [Themes and content](themes-and-content.md#page-sliders-liquid) for the them
 ### Templates
 
 Load a starter layout from the theme (`theme/{name}.html` files) into the page body without overwriting an existing title or slug.
+
+## Theme
+
+Edit shared layout under **Theme** (`/admin/theme`): header/footer, custom CSS/JS, and live preview. The active instance theme is the site theme root (Docker: `Themes/site`). Prefer restoring the standard theme from the UI rather than hand-editing CMS markers (`ew-site-meta`, `ew-nav-brand`, `ew-asset:*`).
+
+## DataSets, News, Forms
+
+| Area | Use |
+|------|-----|
+| **DataSets** | Define fields and culture-specific rows; insert via Liquid blocks on pages |
+| **News** | Feeds and posts; list/slider snippets on pages |
+| **Forms** | Build forms in the admin; drop a Form block on a page (no custom POST handlers) |
 
 ## Image Gallery
 
@@ -96,16 +121,31 @@ Requires **Navigation → Edit** permission. See [CLI — push navigation](cli.m
 
 ## Documents
 
-Manage non-image files (PDF, Office, archives) separately from the image gallery. Document permissions are independent from image gallery permissions.
+Manage non-image files (PDF, Office, archives) separately from the image gallery. Document permissions are independent from image gallery permissions. Public URLs use `/files/...` (PDF flipbook, downloads).
+
+## Settings
+
+| Tab | Purpose |
+|-----|---------|
+| **Design** | Logo, fonts, brand and navigation colors, button styles |
+| **Meta** | Site name, SEO templates, favicon, Open Graph, structured data, optional `llms.txt` |
+| **E-Mail** | Outgoing mail for forms and system messages |
+| **Languages** | Supported cultures |
+| **Assets** | Extra site assets |
+| **Maps** | Enable Google Maps; unlocks the Map block in the page editor |
+| **Cookies** | Cookie banner / consent categories |
+| **Redirects** | URL redirects |
+| **Backup** | Full site export/import (and legacy theme import where available) |
+| **WebDAV** | Remote-editing username/password; live-cache clear |
 
 ## Sync with git / CLI
 
 | Direction | Command | What moves |
 |-----------|---------|------------|
-| Local → server | `easyweb publish .` | `theme/`, `pages/` via WebDAV |
-| Server → local | `easyweb pull .` or `easyweb sync .` | `theme/`, `pages/`, `settings/navigation.json`, `images/` |
+| Local → server | `easyweb publish .` | `theme/`, `pages/`, and when present `datasets/`, `forms/`, `news/` via WebDAV; `settings/navigation.json` via CMS API |
+| Server → local | `easyweb pull .` or `easyweb sync .` | same WebDAV roots + `settings/navigation.json` + `images/` |
 
-CMS credentials (`EASYWEB_ADMIN_EMAIL`, `EASYWEB_ADMIN_PASSWORD`) are required for pull of navigation and images. WebDAV credentials sync theme and pages only.
+CMS credentials (`EASYWEB_ADMIN_EMAIL`, `EASYWEB_ADMIN_PASSWORD`) are required for navigation and images. WebDAV credentials sync theme, pages, datasets, forms, and news. Full matrix: [CLI — sync matrix](cli.md#sync-matrix-canonical).
 
 ## Related docs
 
@@ -113,3 +153,5 @@ CMS credentials (`EASYWEB_ADMIN_EMAIL`, `EASYWEB_ADMIN_PASSWORD`) are required f
 - [Themes and content](themes-and-content.md)
 - [CLI](cli.md)
 - [VS Code extension](vscode-extension.md)
+- [Page building / CMS blocks](https://github.com/EasySystems-GmbH/EasyWeb-2.0/blob/main/docs/cursor-page-building.md) (core repo)
+- [WebDAV ↔ CMS](https://github.com/EasySystems-GmbH/EasyWeb-2.0/blob/main/docs/webdav-cms-compatibility.md) (core repo)

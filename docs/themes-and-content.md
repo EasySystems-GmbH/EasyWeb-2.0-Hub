@@ -4,24 +4,32 @@ EasyWeb 2.0 serves public HTML from **theme templates** and **page files** on di
 
 ## Site workspace layout
 
-Typical git / CLI workspace:
+Typical git / CLI workspace (what `easyweb publish` / `pull` expect):
 
 ```text
 my-site/
-  theme/              # layout, assets, inc/, optional {slug}.html templates
-  pages/              # page HTML + .meta.json
+  theme/              # layout, assets, inc/, optional {slug}.html templates  →  /theme
+  pages/              # page HTML + .meta.json  →  /pages
   pages/de/           # optional culture subfolders
-  settings/           # navigation.json — edit menu, push with easyweb push-navigation
-  images/             # exported by easyweb pull (CMS uploads)
+  datasets/           # optional  →  /datasets
+  forms/              # optional  →  /forms
+  news/               # optional  →  /news
+  settings/           # allowlisted site JSON + navigation.json; secrets via pull-/push-secrets
+  images/             # CMS gallery (pull . / push-images)
+  files/              # documents (push-documents)
 ```
 
+On the **server**, WebDAV `/theme` is the active instance theme (filesystem `Themes/site`). In the Core Docker repo the same content is bind-mounted as `Themes/site` — not as a folder named `theme/`. Full path table: [CLI — site workspace vs Core](cli.md#site-workspace-vs-core-repo).
+
 Publish and pull: [CLI](cli.md). Push navigation only: `easyweb push-navigation .`.
+
+**Do not edit `Themes/LegacyStarter` as the live theme** — it is only the system seed for `easyweb create-theme` and theme restore. Edit the instance theme (`theme/` in a site workspace, or `Themes/site` under Core Docker).
 
 ## Theme directory (`theme/`)
 
 | Path | Role |
 |------|------|
-| `inc/_header.html`, `inc/_footer.html` | Shared chrome |
+| `inc/_header.html`, `inc/_footer.html` | Shared chrome (keep CMS markers intact) |
 | `blank.html`, `index.html` | Layout wrappers for page body from `pages/` |
 | `{slug}.html` | Full-page template when no page body exists for that slug |
 | `assets/` | CSS, JS, images at `/theme/assets/...` |
@@ -35,17 +43,24 @@ WebDAV path: `/theme`. Public static URL: `/theme/...`.
 | `{culture}/{slug}.html` | Page body HTML |
 | `{culture}/{slug}.meta.json` | Title, SEO title, SEO description, **sliders** |
 
-Example `.meta.json`:
+Example `.meta.json` (camelCase keys):
 
 ```json
 {
-  "Title": "Gallery",
-  "SeoTitle": "Gallery",
-  "SeoDescription": "Our work",
-  "Sliders": {
+  "title": "Gallery",
+  "seoTitle": "Gallery",
+  "seoDescription": "Our work",
+  "listingDescription": "",
+  "previewImage": "",
+  "listingButtonText": "",
+  "contentCss": null,
+  "templateName": null,
+  "isNewsDetailPage": false,
+  "isPublished": true,
+  "sliders": {
     "main": {
-      "Images": [
-        { "Path": "portfolio/slide-1.jpg", "Title": "Slide 1", "AltText": "Description" }
+      "images": [
+        { "path": "portfolio/slide-1.jpg", "title": "Slide 1", "altText": "Description" }
       ]
     }
   }
@@ -120,7 +135,7 @@ Slider name `main` matches `current_page.sliders.**main**.images`. Additional sl
 
 ## Editable regions (`wf-editable`)
 
-Mark blocks that authors edit in the CMS WYSIWYG:
+Mark blocks that authors edit in the CMS page editor (GrapesJS visual canvas):
 
 ```html
 <section class="wf-editable">
@@ -144,7 +159,7 @@ Theme static files use short browser cache headers so updates appear after publi
 
 ## Related docs
 
-- [CMS admin](cms-admin.md) — WYSIWYG editor and slider UI
+- [CMS admin](cms-admin.md) — hybrid page editor (GrapesJS + Monaco) and slider UI
 - [CMS permissions](cms-permissions.md)
 - [CLI](cli.md) — publish, pull, validate
 - [Core: legacy theme compatibility](https://github.com/EasySystems-GmbH/EasyWeb-2.0/blob/main/docs/legacy-theme-compatibility.md) — full `wf-*` and fixture notes

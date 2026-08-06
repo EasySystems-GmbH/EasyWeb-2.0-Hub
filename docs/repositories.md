@@ -9,7 +9,7 @@ EasyWeb 2.0 is organized into separate repositories with clear responsibilities.
 Core platform repository:
 
 - ASP.NET Core API and CMS admin (`/admin`)
-- WYSIWYG page editor, page sliders, image gallery, navigation, documents
+- Hybrid page editor (GrapesJS + Monaco), page sliders, image gallery, navigation, documents, data sets, news, forms, theme
 - Per-user CMS permissions
 - Fluid (Liquid) theme runtime
 - CLI (`easyweb`) and VS Code extension (`easyweb-remote`)

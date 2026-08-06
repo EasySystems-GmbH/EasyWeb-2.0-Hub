@@ -27,6 +27,7 @@ Use `examples/docker-compose.yml` from this repository.
 It uses:
 
 - `ghcr.io/easysystems-gmbh/easyweb:latest`
+- Named volumes for **Themes, Pages, images, files, datasets, news, forms** (persists CMS content across container recreate; `docker compose down -v` still deletes volumes)
 
 If you want a pinned release, change `latest` to a specific tag.
 
@@ -39,6 +40,8 @@ cp examples/docker-compose.yml docker-compose.yml
 Direct link:
 
 - [Docker Compose Example](../examples/docker-compose.yml)
+
+For Core **source development** with bind mounts onto `./Pages`, `./Themes/site`, etc., use `EasyWeb-2.0/docker-compose.yml` in the [core repository](https://github.com/EasySystems-GmbH/EasyWeb-2.0) instead of this Hub example.
 
 ## 2) Start services
 
@@ -57,7 +60,7 @@ Default admin login:
 - Email: `admin@easyweb.local`
 - Password: `EasyWeb!2026`
 
-Use the CMS to edit pages (WYSIWYG), manage [page sliders](themes-and-content.md#page-sliders-liquid), upload images, and edit navigation. See [CMS admin](cms-admin.md).
+Use the CMS to edit pages (hybrid visual/code editor), manage [page sliders](themes-and-content.md#page-sliders-liquid), upload images, and edit navigation. See [CMS admin](cms-admin.md).
 
 ## 4) Theme and site content
 
@@ -72,12 +75,16 @@ cd ./workspace
 easyweb validate .
 ```
 
-Organize a deployable site repo:
+Organize a deployable **site workspace** (CLI expects lowercase `theme/` + `pages/` at the root — see [CLI sync matrix](cli.md#sync-matrix-canonical)):
 
 ```text
 my-site/
-  theme/    # from create-theme output (move files into theme/)
+  theme/       # from create-theme output (move files into theme/)
   pages/
+  datasets/    # optional
+  forms/       # optional
+  news/        # optional
+  settings/    # navigation.json after pull
 ```
 
 Publish to the running instance:

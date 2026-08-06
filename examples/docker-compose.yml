@@ -15,6 +15,10 @@ services:
       Themes__DefaultRootPath: /app/Themes/site
       Pages__RootPath: /app/Pages
       Images__RootPath: /app/images
+      Files__RootPath: /app/files
+      Datasets__RootPath: /app/datasets
+      News__RootPath: /app/news
+      Forms__RootPath: /app/forms
       RemoteEditing__Username: admin
       RemoteEditing__Password: EasyWebRemote!2026
       Seed__AdminEmail: admin@easyweb.local
@@ -26,6 +30,10 @@ services:
       - easyweb_themes:/app/Themes
       - easyweb_pages:/app/Pages
       - easyweb_images:/app/images
+      - easyweb_files:/app/files
+      - easyweb_datasets:/app/datasets
+      - easyweb_news:/app/news
+      - easyweb_forms:/app/forms
 
   easyweb.db:
     image: postgres:16-alpine
@@ -51,3 +59,7 @@ volumes:
   easyweb_themes:
   easyweb_pages:
   easyweb_images:
+  easyweb_files:
+  easyweb_datasets:
+  easyweb_news:
+  easyweb_forms:
