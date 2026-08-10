@@ -26,11 +26,13 @@ Public documentation hub (this repo):
 
 ### `EasyWeb 2.0 Basic Demo Theme` (public)
 
-Starter theme repository:
+**Single source of truth** for the CMS-ready Bootstrap starter:
 
-- ready-to-use theme for new installations
-- baseline templates and assets (including `gallery.html` slider example)
-- safe starting point for custom themes
+- Edit only this repo’s `theme/` folder
+- Docker first-boot and Theme admin **Load starter theme** copy into instance `Themes/site`
+- `easyweb create-theme` scaffolds from the same starter
+- No demo news/dataset/gallery **entries** — structural templates only
+- CLI / WebDAV / code-first compatible (same file contract as any site `theme/`)
 
 ## Documentation Navigation
 

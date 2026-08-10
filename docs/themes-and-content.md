@@ -23,7 +23,7 @@ On the **server**, WebDAV `/theme` is the active instance theme (filesystem `The
 
 Publish and pull: [CLI](cli.md). Push navigation only: `easyweb push-navigation .`.
 
-**Do not edit `Themes/LegacyStarter` as the live theme** — it is only the system seed for `easyweb create-theme` and theme restore. Edit the instance theme (`theme/` in a site workspace, or `Themes/site` under Core Docker).
+**Starter vs instance:** Edit the starter only in [EasyWeb-2.0-Basic-Demo-Theme](https://github.com/EasySystems-GmbH/EasyWeb-2.0-Basic-Demo-Theme). Docker first-boot and Theme admin **Load starter theme** copy into `Themes/site` (or your site workspace `theme/`). Do not treat Core `Themes/BasicDemoTheme` as the place to design — it is an image bake of that repo.
 
 ## Theme directory (`theme/`)
 

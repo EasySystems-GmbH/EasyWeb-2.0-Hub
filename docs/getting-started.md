@@ -16,7 +16,7 @@ Live documentation site:
 
 - `EasyWeb-2.0 Hub` (this repo): public resources and docs
 - `EasyWeb 2.0` (core): platform, CMS, CLI, extension
-- `EasyWeb 2.0 Basic Demo Theme` (public): starter theme for new installations
+- `EasyWeb 2.0 Basic Demo Theme` (public): starter SSOT — edit only there; Docker/Theme admin copy into instance `Themes/site`
 
 ## Documentation Navigation
 
@@ -36,5 +36,5 @@ Live documentation site:
 3. Explore [CMS admin](cms-admin.md): edit pages in the visual editor, upload images, configure sliders.
 4. Install the [CLI](cli.md) or [VS Code extension](vscode-extension.md) for git-based workflows.
 5. Create or clone a site workspace (`theme/`, `pages/`, optional `datasets/` / `forms/` / `news/`, `settings/navigation.json`) and use `easyweb publish .` to deploy, or `easyweb pull .` after CMS edits. Push menu changes with `easyweb push-navigation .`. See [CLI sync matrix](cli.md#sync-matrix-canonical).
-6. Customize the [Basic Demo Theme](https://github.com/EasySystems-GmbH/EasyWeb-2.0-Basic-Demo-Theme) as your starting point.
+6. For a new site, start from the [Basic Demo Theme](https://github.com/EasySystems-GmbH/EasyWeb-2.0-Basic-Demo-Theme) (or let Docker seed `Themes/site`), then customize the **instance** theme (`Themes/site` / workspace `theme/`) — not a parallel “Basic” copy in Core.
 7. Restrict editor access with [CMS permissions](cms-permissions.md) when working in a team.

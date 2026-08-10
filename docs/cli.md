@@ -321,13 +321,13 @@ Optional **WARN** lines appear when CMS marker blocks are missing (`ew-site-meta
 
 ## Create theme and update README docs
 
-Scaffold a new theme from the neutral **LegacyStarter** template (`Themes/LegacyStarter` in the CMS repo — same source as theme restore and `easyweb create-theme`):
+Scaffold a new theme from the **Basic Demo Theme** starter ([EasyWeb-2.0-Basic-Demo-Theme](https://github.com/EasySystems-GmbH/EasyWeb-2.0-Basic-Demo-Theme) — same SSOT as Docker first-boot and Theme admin **Load starter theme**):
 
 ```bash
 easyweb create-theme MyTheme ./Themes
 ```
 
-The command copies Bootstrap 5 layout with CMS marker blocks (`ew-site-meta`, `ew-theme-css`, `ew-site-footer`, …), `custom.css`, `editor-canvas.css`, slider/gallery base CSS, and news layout templates. Theme name placeholders are applied in `theme.json`, manifest, and nav branding.
+The command copies Bootstrap 5 layout with CMS marker blocks (`ew-site-meta`, `ew-theme-css`, `ew-site-footer`, …), `custom.css`, `editor-canvas.css`, slider/gallery base CSS, and empty structural templates (gallery, news, kontakt, legal). Theme name placeholders are applied in `theme.json`, manifest, and nav branding. After scaffolding, treat the result as your instance theme (`Themes/site` or workspace `theme/`) — do not maintain a parallel “Basic” copy.
 
 Refresh the generated **Template docs** section in a theme `README.md`:
 

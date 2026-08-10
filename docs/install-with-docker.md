@@ -107,7 +107,7 @@ easyweb pull .
 
 ### Option B — Basic Demo Theme repository
 
-Clone [EasyWeb 2.0 Basic Demo Theme](https://github.com/EasySystems-GmbH/EasyWeb-2.0-Basic-Demo-Theme) and publish its `theme/` and `pages/` folders with `easyweb publish .`.
+The [Basic Demo Theme](https://github.com/EasySystems-GmbH/EasyWeb-2.0-Basic-Demo-Theme) is the **starter SSOT** (`theme/`). Clone it to edit the starter itself, or use `easyweb create-theme` / Docker first-boot so the files land in your instance `Themes/site` (or workspace `theme/`) and customize there. Do not maintain a second editable “Basic” theme inside Core.
 
 ## Notes
 
