@@ -78,11 +78,10 @@ See [cms-blocks-reference.html](cms-blocks-reference.html) for copy-paste markup
   </div>
 </section>
 
-<!-- Feature-Box (not Map) -->
+<!-- Feature-Box (not Map) — one text only -->
 <div class="card wf-editable">
   <div class="card-body">
-    <div class="wf-editable"><h3 class="h5 card-title">Feature</h3></div>
-    <div class="wf-editable"><p class="card-text mb-0">Text</p></div>
+    <div class="wf-editable"><p class="card-text mb-0">Feature text</p></div>
   </div>
 </div>
 
