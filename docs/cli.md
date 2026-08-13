@@ -246,6 +246,7 @@ Applies `settings/navigation.json` to the CMS:
 - Links with an `id` from a previous pull are **updated**.
 - Links without `id` are **created**.
 - Server links missing from the file are **deleted**.
+- Nested items use **`parentLinkId`** (flat list; parents are pushed before children). Also round-trips `openInNewTab` and `culture`.
 
 After a successful push, `navigation.json` is rewritten with current server ids (use `--no-rewrite` to keep your file unchanged).
 
@@ -259,8 +260,15 @@ Example `settings/navigation.json`:
 {
   "siteId": "4a33a08b-f52f-4e89-bc4b-3ecb8fe49cb5",
   "links": [
-    { "title": "Home", "url": "/home" },
-    { "title": "About", "url": "/about" }
+    { "id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa", "title": "Leistungen", "url": "/de/leistungen", "sortOrder": 1 },
+    {
+      "id": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+      "title": "Beratung",
+      "url": "/de/beratung",
+      "sortOrder": 1,
+      "parentLinkId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "openInNewTab": false
+    }
   ]
 }
 ```

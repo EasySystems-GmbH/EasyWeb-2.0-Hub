@@ -2,6 +2,11 @@
   Entwickler-Referenz: CMS-Block-Markup zum Nachschlagen.
   Liegt unter docs/ — KEINE öffentliche Seite, NICHT unter Pages/ oder Themes/.
   Nicht publishen / nicht in WebDAV legen.
+
+  Regeln: Nur offizielle Blöcke. Keine Custom-Divs zum Gestalten.
+  Abstände/Maße/Rahmen → Stile-Panel → contentCss (#ew-e-…).
+  Globales Design → Einstellungen → Design (site-theme → main.css).
+  custom.css nur Notfall. Raw-HTML nur Code-(HTML)-Zone.
 -->
 
 <!-- Abschnitt -->
@@ -31,21 +36,25 @@
 <!-- Schaltfläche (neben Text-Wrapper, nicht darin) -->
 <a href="/de/kontakt" class="btn btn-primary ew-btn">Kontakt</a>
 
-<!-- Bootstrap-Karte (Feature-Box — nicht ew-map) -->
+<!-- Feature-Box (Bootstrap-Card — NICHT die Standort-Karte / ew-map) -->
 <div class="card wf-editable">
   <div class="card-body">
-    <h3 class="h5 card-title">Feature</h3>
-    <p class="card-text mb-0">Text</p>
+    <div class="wf-editable"><h3 class="h5 card-title">Feature</h3></div>
+    <div class="wf-editable"><p class="card-text mb-0">Text</p></div>
   </div>
 </div>
 
 <!-- Hinweis -->
 <div class="alert alert-info wf-editable" role="alert">Hinweis</div>
 
-<!-- Spalten -->
-<div class="row g-4">
-  <div class="col-md-6">…</div>
-  <div class="col-md-6">…</div>
+<!-- Spalten (Spalten-Block — ew-layout-row ist Pflicht) -->
+<div class="row g-3 ew-layout-row">
+  <div class="col-md-6">
+    <div class="wf-editable"><p>Spalte 1</p></div>
+  </div>
+  <div class="col-md-6">
+    <div class="wf-editable"><p>Spalte 2</p></div>
+  </div>
 </div>
 
 <!-- Trennlinie (kein wf-editable) -->
@@ -77,79 +86,37 @@
 <div class="ew-gallery wf-editable" data-ew-gallery-cols="3" data-ew-gallery-breakpoint="md">
   <div class="row g-3 ew-gallery-grid">
     <div class="col-md-4 ew-gallery-cell">
-      <img src="/images/ordner/bild.jpg" class="img-fluid ew-gallery-image w-100" alt="Beschreibung"
-           style="object-fit:cover;aspect-ratio:4/3;">
+      <img src="/images/ordner/bild.jpg" class="img-fluid ew-gallery-image w-100" alt="Beschreibung">
     </div>
   </div>
 </div>
 
 <!-- FAQ -->
 <div class="accordion ew-faq wf-editable w-100" id="ew-faq-beispiel"
-     data-ew-faq='[{"title":"Frage?","text":"Antwort."}]'>
-</div>
+     data-ew-faq='[{"q":"Frage?","a":"Antwort."}]'></div>
 
 <!-- Downloads -->
 <div class="ew-downloads wf-editable w-100"
-     data-ew-downloads='[{"title":"Prospekt.pdf","url":"/files/prospekt.pdf"}]'>
-  <ul class="list-group list-group-flush ew-downloads-list"></ul>
-</div>
+     data-ew-downloads='[{"title":"Prospekt.pdf","url":"/files/prospekt.pdf"}]'></div>
 
-<!-- PDF-Flipbook -->
-<div class="ew-pdf-flipbook wf-editable w-100"
-     data-ew-pdf-src="/files/beispiel.pdf"
-     data-ew-pdf-toolbar="true"
-     data-ew-pdf-init="">
-  <div class="ratio ratio-4x3 border rounded bg-white ew-pdf-viewport" data-ew-pdf-viewport>
-    <div class="d-flex align-items-center justify-content-center ew-pdf-stage" data-ew-pdf-stage>
-      <canvas class="ew-pdf-canvas d-none" data-ew-pdf-canvas></canvas>
-    </div>
-  </div>
-</div>
+<!-- PDF Flipbook -->
+<div class="ew-pdf-flipbook wf-editable w-100" data-ew-pdf-src="/files/beispiel.pdf" data-ew-pdf-init=""></div>
 
 <!-- YouTube (kein wf-editable) -->
-<div class="ew-youtube" data-ew-youtube-empty="true"
-     data-ew-youtube-editor-placeholder="YouTube einbetten"></div>
-<!-- Nach Embed: data-ew-youtube-src + iframe -->
+<div class="ew-youtube" data-ew-youtube-src="https://www.youtube.com/embed/VIDEO_ID"></div>
 
-<!-- Map / Standort — nur wenn Einstellungen → Karten aktiv (≠ Bootstrap card) -->
-<div class="ew-map wf-editable w-100" style="min-height:400px"
-     data-ew-map-editor-placeholder="Karte"></div>
+<!-- Standort-Karte / Map (NICHT Feature-Box) — nur wenn Einstellungen → Karten aktiv -->
+<div class="ew-map wf-editable w-100" style="min-height:400px"></div>
 
-<!-- DataSet (Liquid-Zone) — Snippet: easyweb snippet dataset {key} -->
-<!-- ew:zone type=liquid id=team -->
-{% assign team_rows = datasets.team.rows | sort_by: 'fields.index' %}
-{% for member in team_rows %}
-  <div class="wf-editable">{{ member.fields.name }}</div>
-{% endfor %}
+<!-- Formular -->
+<div class="ew-form-container" data-ew-form-key="kontakt"></div>
+
+<!-- Code Liquid-Zone -->
+<!-- ew:zone type=liquid id=liquid-beispiel -->
+{% comment %} Liquid {% endcomment %}
 <!-- /ew:zone -->
 
-<!-- News — Snippet: easyweb snippet news {feed} -->
-<!-- ew:zone type=liquid id=news-neuigkeiten -->
-{% assign ew_news_posts = news.neuigkeiten.posts | limit: 12 %}
-{% for post in ew_news_posts %}
-  <article><h3>{{ post.title }}</h3><div>{{ post.textHtml }}</div></article>
-{% endfor %}
-<!-- /ew:zone -->
-
-<!-- Seiten-Ordner -->
-<!-- ew:zone type=liquid id=page-folder -->
-{% for item in pages.folders._root.items %}
-  <a href="{{ item.url }}">{{ item.title }}</a>
-{% endfor %}
-<!-- /ew:zone -->
-
-<!-- Formular — Snippet: easyweb snippet form {key} --culture de -->
-<div class="ew-form-container" data-ew-form-key="kontakt">
-  <!-- gerendertes ew-form Markup vom Server einfügen -->
-</div>
-
-<!-- Code HTML-Zone -->
+<!-- Code HTML-Zone — absoluter Notfall für Raw-HTML -->
 <!-- ew:zone type=html id=html-beispiel -->
 <div>Freies HTML</div>
 <!-- /ew:zone -->
-
-<!-- Page Popup — am Dateianfang der echten Page; CMS-Toolbar Popup bevorzugen -->
-<!-- ew:page-popup -->
-<div id="ewPagePopup" class="ew-page-popup d-none" data-ew-page-popup="1"
-     data-ew-popup-enabled="false" hidden></div>
-<!-- /ew:page-popup -->
