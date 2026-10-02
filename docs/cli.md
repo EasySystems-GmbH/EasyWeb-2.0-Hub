@@ -232,7 +232,7 @@ When `settings/navigation.json` exists in the workspace, **`publish` also pushes
 easyweb pull-navigation .
 ```
 
-Writes `settings/navigation.json` with the current menu from the database (includes link `id` values for later updates).
+Writes `settings/navigation.json` with **all menus** (`main`, `footer`, …) from the database: a `menus` block and a flat `links` list where every link carries `menuKey` and `navigationMenuId` (plus `id` values for later updates).
 
 **Push navigation** (local → CMS):
 
@@ -245,7 +245,8 @@ Applies `settings/navigation.json` to the CMS:
 - Link **order** in the file becomes `sortOrder` (top = first in menu).
 - Links with an `id` from a previous pull are **updated**.
 - Links without `id` are **created**.
-- Server links missing from the file are **deleted**.
+- Server links missing from the file are **deleted** — but only in menus the file mentions (plus `main`). A main-only file leaves the footer menu alone.
+- **`menuKey`** (`main`, `footer`, …) decides which menu a link belongs to; it is portable between instances. A `navigationMenuId` is only used when it exists on the target server; otherwise the link goes to `main`. Menus referenced by key but missing on the server are created.
 - Nested items use **`parentLinkId`** (flat list; parents are pushed before children). Also round-trips `openInNewTab` and `culture`.
 
 After a successful push, `navigation.json` is rewritten with current server ids (use `--no-rewrite` to keep your file unchanged).

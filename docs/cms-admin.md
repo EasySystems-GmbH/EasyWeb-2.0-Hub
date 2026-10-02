@@ -115,7 +115,7 @@ Links are rendered in themes via:
 
 `easyweb pull .` also downloads navigation into `settings/` (with theme, pages, and images).
 
-Array order is the menu order. After push, the CLI refreshes `id` fields in `navigation.json` so the next push can update the same links.
+Array order is the menu order. Each link has a `menuKey` (`main`, `footer`, …) that decides which menu it belongs to; the footer menu is rendered through the footer design settings (`navigations.footer.links`). After push, the CLI refreshes `id` fields in `navigation.json` so the next push can update the same links.
 
 Requires **Navigation → Edit** permission. See [CLI — push navigation](cli.md#publish-and-pull-workspace).
 
